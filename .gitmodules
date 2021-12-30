@@ -2,3 +2,6 @@
 	path = misago
 	url = git@github.com:rafalp/Misago.git
 	branch = starlette
+[submodule "client"]
+	path = client
+	url = https://github.com/rafalp/misago-client.git
