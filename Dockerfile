@@ -5,9 +5,11 @@ ENV PYTHONUNBUFFERED 1
 ENV IN_MISAGO_DOCKER 1
 
 # Update apt and install node.js
-RUN apt-get update && apt-get install -y node npm
+RUN apt-get update && apt-get install -y nodejs npm
 
-add ./client/ app/client
+ADD ./client/ /app/client
+ADD ./plugins/ /app/client/plugins/
+ADD ./misago/bootstrap /app/
 ADD ./misago/requirements.txt /app/
 ADD ./misago/requirements-dev.txt /app/
 ADD ./misago/setup.py /app/
@@ -15,7 +17,7 @@ ADD ./misago/misago/ /app/misago/
 ADD ./plugins/ /app/plugins/
 
 RUN cd ./app/client && npm install
-RUN ./app/client/bootstrap deploy
+RUN cd ./app/client && ./bootstrap deploy
 RUN pip install --upgrade pip
 RUN ./app/bootstrap dependencies
 RUN ./app/bootstrap plugins
