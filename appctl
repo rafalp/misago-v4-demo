@@ -87,3 +87,14 @@ setup() {
         echo "Database was not initialized. Restore from backup or load custom db dump to psql and use \"./appctl start\" to start Misago server."
     fi
 }
+
+# Command dispatcher
+if [[ $1 ]]; then
+    if [[ $1 = "setup" ]]; then
+        setup
+    else
+        invalid_argument $1
+    fi
+else
+    intro
+fi
