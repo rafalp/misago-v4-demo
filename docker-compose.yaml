@@ -1,0 +1,101 @@
+# This compose setup is meant for running Misago sites in production
+version: "3.0"
+services:
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    restart: always
+    networks:
+      - misago
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - ENABLE_IPV6=true
+    volumes:
+      - nginx-certs:/etc/nginx/certs
+      - nginx-html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./media:/app/media:Z
+      - ./static:/app/static:Z
+      - ./config/vhost.d:/etc/nginx/vhost.d:z
+      - ./logs/nginx:/var/log/nginx:z
+
+  nginx-lets-encrypt:
+    image: nginxproxy/acme-companion:2.0
+    restart: always
+    networks:
+      - misago
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - acme:/etc/acme.sh
+      - nginx-certs:/etc/nginx/certs
+      - nginx-html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/vhost.d:/etc/nginx/vhost.d:z
+
+  postgres:
+    image: postgres:11
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=misago
+      - POSTGRES_PASSWORD=misago
+    networks:
+      - misago
+    volumes:
+      - misago-database:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5
+    restart: unless-stopped
+    networks:
+      - misago
+    volumes:
+      - misago-redis:/data
+
+  misago:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      misago:
+        aliases:
+          - misago
+    environment:
+      # SSL Proxy
+      - SSL_POLICY=Mozilla-Modern
+      - VIRTUAL_HOST=v4.misago-project.org
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=v4.misago-project.org
+      # Misago
+      - MISAGO_DEBUG=True
+      - MISAGO_DATABASE_URL=postgresql://misago:misago@postgres/misago
+      - MISAGO_TEST_DATABASE_NAME=test
+      - MISAGO_CACHE_URL=locmem://0
+      - MISAGO_PUBSUB_URL=redis://redis:6379
+      - MISAGO_STATIC_ROOT=/app/media
+      - MISAGO_MEDIA_ROOT=/app/static
+      - MISAGO_PLUGINS_ROOT=/app/plugins
+      - MISAGO_ENABLED_PLUGINS=/app/plugins.txt
+    depends_on:
+      - nginx-lets-encrypt
+      - postgres
+      - redis
+    tty: true
+    volumes:
+      # Map in the project files into the container
+      # This makes sure files in the container update without need for rebuilding
+      - ./media:/app/media:Z
+      - ./static:/app/static:Z
+
+networks:
+  misago:
+
+volumes:
+  acme:
+  nginx-certs:
+  nginx-html:
+  misago-database:
+  misago-redis:

@@ -1,0 +1,89 @@
+#!/bin/bash
+# appctl is an utility script for managing your Misago deployment.
+# To find out what options are available, run it without any arguments.
+
+# Text styles
+RED='\033[0;31m'
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+
+# Define env paths
+# Those are paths to env files created by wizard
+misago_env_path="./config/misago.env"
+env_paths=(
+    $misago_env_path
+    "./config/postgres.env"
+)
+
+# Find docker compose path
+docker_compose=$(which docker-compose)
+
+# Utility functions used by action commands
+error() {
+    echo -e "${RED}Error:${NORMAL} $1"
+}
+
+require_setup() {
+    for env_path in "${env_paths[@]}"; do
+        if [ ! -e $env_path ]; then
+            error "You need to setup your site using \"./appctl setup\" before you will be able to use this option."
+            echo
+            exit 1
+        fi
+    done
+}
+
+# Check if user has docker and docker-compose
+if ! command -v docker >/dev/null 2>&1; then
+    error "You need to have Docker installed to use this tool."
+    echo
+    echo "Docker release for your system can be downloaded for free from this page:"
+    echo "https://www.docker.com/get-started"
+    echo
+    echo "If you are on Linux, you will also have to install Docker Compose after installing Docker:"
+    echo "https://docs.docker.com/compose/install/"
+    echo
+    exit 1
+elif ! command -v $docker_compose >/dev/null 2>&1; then
+    error "You need to have Docker Compose installed to use this tool."
+    echo
+    echo "Guide for installing Docker Compose on your system can be found on this page:"
+    echo "https://docs.docker.com/compose/install/"
+    echo
+    exit 1
+fi
+
+# Commands
+intro() {
+    echo "Usage: ./appctl [arg] ..."
+    echo "Arguments grouped by type:"
+    echo
+    echo "Setup and upgrade:"
+    echo
+    echo "    ${BOLD}setup${NORMAL}             setup new Misago site."
+    echo
+}
+
+# Handle invalid argument
+invalid_argument() {
+    echo -e "Invalid argument: ${RED}$1${NORMAL}"
+    echo "Please run this script without any arguments to see the list of available arguments."
+    echo
+    exit 1
+}
+
+# Run new site setup
+setup() {
+    # Run docker build
+    docker-compose build --no-cache --force-rm --pull
+    docker-compose run --rm --no-deps misago ./bootstrap migrate_database
+    docker-compose run --rm --no-deps misago cp /app/client/build/misago /app/static/misago
+    docker-compose up
+    echo "Setup completed."
+    if [ "$initialize_default_database" != "n" ]; then
+        echo "If you have already pointed a domain at this server, you can now visit it to access your Misago site."
+        echo "Please note that it may take up to few minutes for HTTPS to activate."
+    else
+        echo "Database was not initialized. Restore from backup or load custom db dump to psql and use \"./appctl start\" to start Misago server."
+    fi
+}
