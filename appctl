@@ -111,11 +111,10 @@ upgrade() {
         exit
     fi
 
-    echo "Creating backup..."
-    create_new_backup "upgrade"
     echo "Stopping containers for upgrade..."
     docker-compose stop
     git pull
+    
     docker-compose build --no-cache --force-rm --pull
     collectstatic
     docker-compose run --rm misago python manage.py migrate
