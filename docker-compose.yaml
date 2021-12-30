@@ -75,8 +75,8 @@ services:
       - MISAGO_TEST_DATABASE_NAME=test
       - MISAGO_CACHE_URL=locmem://0
       - MISAGO_PUBSUB_URL=redis://redis:6379
-      - MISAGO_STATIC_ROOT=/app/media
-      - MISAGO_MEDIA_ROOT=/app/static
+      - MISAGO_STATIC_ROOT=/app/static
+      - MISAGO_MEDIA_ROOT=/app/media
       - MISAGO_PLUGINS_ROOT=/app/plugins
       - MISAGO_ENABLED_PLUGINS=/app/plugins.txt
     depends_on:

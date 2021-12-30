@@ -38,6 +38,7 @@ COPY --from=build-app /app/client/build/ /app/client/build/
 RUN apt-get update && apt-get install -y postgresql-client
 
 # Re-add misago
+ADD ./misago/bootstrap /app/bootstrap
 ADD ./misago/misagocli.py /app/misagocli.py
 ADD ./misago/setup.py /app/
 ADD ./misago/misago/ /app/misago/

@@ -76,8 +76,8 @@ invalid_argument() {
 setup() {
     # Run docker build
     docker-compose build --no-cache --force-rm --pull
-    docker-compose run --rm --no-deps misago ./bootstrap migrate_database
-    docker-compose run --rm --no-deps misago cp /app/client/build/misago /app/static/misago
+    docker-compose run --rm misago ./bootstrap migrate
+    docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/misago
     docker-compose up
     echo "Setup completed."
     if [ "$initialize_default_database" != "n" ]; then
