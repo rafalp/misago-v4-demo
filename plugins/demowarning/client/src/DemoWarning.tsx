@@ -7,8 +7,8 @@ const TopPosters: React.FC = () => (
       <p>
         <strong>Note:</strong> This is a demo site. It's data is periodically wiped clean.
       </p>
-      <p>
-        For feedback and discussions please use <a href="https://misago-project.org/">main forums</a>
+      <p style={{ margin: "0px"}}>
+        For feedback and discussions please use <a href="https://misago-project.org/c/misago-v4/25/">Misago v4 category on main forums</a>.
       </p>
     </CardBody>
   </Card>
