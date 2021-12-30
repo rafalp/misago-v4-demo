@@ -27,7 +27,7 @@ gzip_types
     image/svg+xml;
 
 location /static/ {
-    root /misago;
+    root /app/;
     expires max;
 
     # Enable GZIP
@@ -54,7 +54,7 @@ location /static/ {
 }
 
 location /media/ {
-    root /misago;
+    root /app/;
     expires max;
 
     # Enable GZIP
