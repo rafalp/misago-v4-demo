@@ -154,6 +154,12 @@ if [[ $1 ]]; then
         stop_containers
     elif [[ $1 = "restart" ]]; then
         restart_containers
+    elif [[ $1 = "gitpull" ]]; then
+        docker-compose stop
+        git pull
+        git submodule update
+        docker-compose build misago
+        docker-compose up
     else
         invalid_argument $1
     fi
