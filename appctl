@@ -159,6 +159,7 @@ if [[ $1 ]]; then
         git pull
         git submodule update
         docker-compose build misago
+        docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/misago
         docker-compose up --detach
     else
         invalid_argument $1
