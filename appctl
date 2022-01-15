@@ -77,7 +77,7 @@ setup() {
     # Run docker build
     docker-compose build --no-cache --force-rm --pull
     docker-compose run --rm misago ./bootstrap migrate
-    docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/misago
+    docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/
     docker-compose up --detach
     echo "Setup completed."
     if [ "$initialize_default_database" != "n" ]; then
@@ -159,7 +159,7 @@ if [[ $1 ]]; then
         git pull
         git submodule update
         docker-compose build misago
-        docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/misago
+        docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/
         docker-compose up --detach
     else
         invalid_argument $1
