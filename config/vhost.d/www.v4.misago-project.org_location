@@ -1,13 +1,3 @@
-## Start of configuration add by letsencrypt container
-location ^~ /.well-known/acme-challenge/ {
-    auth_basic off;
-    auth_request off;
-    allow all;
-    root /usr/share/nginx/html;
-    try_files $uri =404;
-    break;
-}
-## End of configuration add by letsencrypt container
 if ($request_uri !~ "^/.well-known/acme-challenge")
 {
   return 301 https://v4.misago-project.org$request_uri;
