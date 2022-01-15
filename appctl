@@ -154,7 +154,7 @@ if [[ $1 ]]; then
         stop_containers
     elif [[ $1 = "restart" ]]; then
         restart_containers
-    elif [[ $1 = "gitpull" ]]; then
+    elif [[ $1 = "gitsync" ]]; then
         docker-compose stop
         git pull
         git submodule update
