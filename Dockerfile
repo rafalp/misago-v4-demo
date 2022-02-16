@@ -42,6 +42,7 @@ ADD ./misago/bootstrap /app/bootstrap
 ADD ./misago/misagocli.py /app/misagocli.py
 ADD ./misago/setup.py /app/
 ADD ./misago/misago/ /app/misago/
+ADD ./plugins/ /app/plugins/
 
 WORKDIR /app/
 
