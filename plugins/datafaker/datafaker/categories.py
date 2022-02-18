@@ -25,7 +25,7 @@ ICONS = (
     "fas fa-biohazard",
     "fas fa-bold",
     "fas fa-brush",
-    "fas fa-buffer",
+    "fab fa-buffer",
     "fas fa-bus",
     "fas fa-bus-alt",
     "fas fa-capsules",

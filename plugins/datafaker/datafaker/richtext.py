@@ -114,10 +114,15 @@ def create_fake_rich_text_image() -> dict:
 
 
 def create_fake_rich_text_header(fake: Faker) -> RichTextBlock:
+    if random.choice([True, False]):
+        fake_text = fake.sentence(random.randint(2, 10))
+    else:
+        fake_text = sentences.get_random_sentence()
+
     return {
         "id": get_block_id(),
         "type": "h%s" % random.randint(1, 6),
-        "text": create_fake_rich_text_sentence(fake),
+        "text": fake_text,
     }
 
 
