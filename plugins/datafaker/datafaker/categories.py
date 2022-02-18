@@ -60,7 +60,7 @@ async def create_fake_category(
     all_categories = await get_all_categories()
     new_category = await Category.create(
         name=get_fake_category_name(fake),
-        color=fake.color(luminosity="light"),
+        color=fake.color(luminosity="bright"),
         icon=random.choice(ICONS),
         parent=parent,
     )
