@@ -7,3 +7,7 @@
 	path = client
 	url = https://github.com/rafalp/misago-client.git
 	shallow = true
+[submodule "admin"]
+	path = admin
+	url = https://github.com/rafalp/misago-admin.git
+	shallow = true

@@ -77,6 +77,7 @@ setup() {
     # Run docker build
     docker-compose build --no-cache --force-rm --pull
     docker-compose run --rm misago ./bootstrap migrate
+    docker-compose run --rm --no-deps misago cp -r /app/admin/build/admin /app/static/
     docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/
     docker-compose up --detach
     echo "Setup completed."
