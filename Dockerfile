@@ -37,7 +37,7 @@ ENV IN_MISAGO_DOCKER 1
 COPY --from=build-app /usr/local/lib/python3.9/site-packages/ /usr/local/lib/python3.9/site-packages/
 COPY --from=build-app /usr/local/bin/ /usr/local/bin/
 COPY --from=build-app /app/admin/build/ /app/admin/build/
-COPY --from=build-app /app/admin/build/ /app/client/build/
+COPY --from=build-app /app/client/build/ /app/client/build/
 
 # Update apt and install postgresql-client
 RUN apt-get update && apt-get install -y postgresql-client
