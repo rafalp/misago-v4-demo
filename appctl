@@ -169,6 +169,13 @@ if [[ $1 ]]; then
         docker-compose run --rm --no-deps misago cp -r /app/admin/build/admin /app/static/
         docker-compose run --rm --no-deps misago cp -r /app/client/build/misago /app/static/
         docker-compose up --detach
+        echo
+        echo "Done! If there are no build errors and site has been restarted"
+        echo "successfully, remember to prune dangling docker images that are"
+        echo "no longer required but take disk space:"
+        echo
+        echo "docker prune -a"
+        echo
     else
         invalid_argument $1
     fi
