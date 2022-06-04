@@ -174,7 +174,7 @@ if [[ $1 ]]; then
         echo "successfully, remember to prune dangling docker images that are"
         echo "no longer required but take disk space:"
         echo
-        echo "docker prune -a"
+        echo "docker system prune -a"
         echo
     else
         invalid_argument $1
