@@ -3,10 +3,10 @@ from misago.plugins import PluginManifest
 
 __manifest__ = PluginManifest(
     name="Demo Warning",
-    description="Displays block with warning about side being demo only.",
+    description="Displays block with warning about site being a demo.",
     license="BSD-3",
-    icon="fas fa-exclamation",
-    color="3581b8",
+    icon="fas fa-exclamation-triangle",
+    color="e67e22",
     version="0.1.0",
     author="Rafał Pitoń",
     homepage="https://misago-project.org",
